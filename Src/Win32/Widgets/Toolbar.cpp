@@ -29,19 +29,22 @@ struct SToolbarButton {
   int iString;
   int iStringID;
   int iCommand;
+  bool iCheck = false;
 };
 
 SToolbarButton sButtons[] = {
-  {STD_FILENEW, 0, IDS_FILE_NEW, ID_FILE_NEW},
-  {STD_FILEOPEN, 1, IDS_FILE_OPEN, ID_FILE_OPEN},
-  {STD_FILESAVE, 2, IDS_FILE_SAVE, ID_FILE_SAVE},
+  { STD_HELP, 0, IDS_FILE_LOCK, ID_FILE_LOCK, true },
+  { -1, -1, 0, 0 },
+  {STD_FILENEW, 1, IDS_FILE_NEW, ID_FILE_NEW},
+  {STD_FILEOPEN, 2, IDS_FILE_OPEN, ID_FILE_OPEN},
+  {STD_FILESAVE, 3, IDS_FILE_SAVE, ID_FILE_SAVE},
   {-1, -1, 0, 0},
-  {STD_CUT, 3, IDS_EDIT_CUT, ID_EDIT_CUT},
-  {STD_COPY, 4, IDS_EDIT_COPY, ID_EDIT_COPY},
-  {-2, 5, IDS_EDIT_COPY_ALL, ID_EDIT_COPY_ALL},
-  {STD_PASTE, 6, IDS_EDIT_PASTE, ID_EDIT_PASTE},
+  {STD_CUT, 4, IDS_EDIT_CUT, ID_EDIT_CUT},
+  {STD_COPY, 5, IDS_EDIT_COPY, ID_EDIT_COPY},
+  {-2, 6, IDS_EDIT_COPY_ALL, ID_EDIT_COPY_ALL},
+  {STD_PASTE, 7, IDS_EDIT_PASTE, ID_EDIT_PASTE},
   {-1, -1, 0, 0},
-  {STD_PROPERTIES, 7, IDS_OPTIONS_PREFS, ID_OPTIONS_PREFS}
+  {STD_PROPERTIES, 8, IDS_OPTIONS_PREFS, ID_OPTIONS_PREFS}
 };
 
 CToolbar::CToolbar(HWND hParent, bool bVisible) {
@@ -138,7 +141,9 @@ void CToolbar::CreateToolbar() {
     // TODO: Not sure if this is the best way to handle the separator
     if(sButtons[i].iBitmap == -1)
       pButtons[i].fsStyle = TBSTYLE_SEP;
-    else
+    else if(sButtons[i].iCheck)
+	  pButtons[i].fsStyle = BTNS_CHECK;
+	else
       pButtons[i].fsStyle = TBSTYLE_BUTTON;
     pButtons[i].iString = sButtons[i].iString;
   }

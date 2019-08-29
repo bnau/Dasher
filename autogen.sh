@@ -1,3 +1,6 @@
 #!/bin/sh
-autoreconf -vif
-test -n "$NOCONFIGURE" || ./configure $*
+mkdir release
+cd release
+autoreconf -vif ..
+../configure
+make
